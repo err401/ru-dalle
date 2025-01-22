@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from huggingface_hub import hf_hub_url, cached_download
+from huggingface_hub import hf_hub_url, hf_hub_download
 
 from .model import RealESRGAN
 
@@ -31,7 +31,7 @@ def get_realesrgan(name, device='cpu', fp16=False, cache_dir='/tmp/rudalle'):
     model = RealESRGAN(device, config['scale'], fp16=fp16)
     cache_dir = os.path.join(cache_dir, name)
     config_file_url = hf_hub_url(repo_id=config['repo_id'], filename=config['filename'])
-    cached_download(config_file_url, cache_dir=cache_dir, force_filename=config['filename'])
+    hf_hub_download(config_file_url, cache_dir=cache_dir, force_filename=config['filename'])
     model.load_weights(os.path.join(cache_dir, config['filename']))
     print(f'{name} --> ready')
     return model
