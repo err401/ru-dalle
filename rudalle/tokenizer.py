@@ -14,7 +14,7 @@ def get_tokenizer(path=None, cache_dir='/tmp/rudalle'):
         filename = 'bpe.model'
         cache_dir = join(cache_dir, 'tokenizer')
         config_file_url = hf_hub_url(repo_id=repo_id, filename=filename)
-        hf_hub_download(config_file_url, cache_dir=cache_dir, force_filename=filename)
+        hf_hub_download(repo_id=repo_id, filename=filename, local_dir=cache_dir, force_filename=filename)
         path = join(cache_dir, filename)
     tokenizer = YTTMTokenizerWrapper(yttm.BPE(model=path))
     print('tokenizer --> ready')
