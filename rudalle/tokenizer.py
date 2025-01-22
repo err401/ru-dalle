@@ -4,7 +4,7 @@ from os.path import join
 import torch
 import numpy as np
 import youtokentome as yttm
-from huggingface_hub import hf_hub_url, cached_download
+from huggingface_hub import hf_hub_url, hf_hub_download
 
 
 def get_tokenizer(path=None, cache_dir='/tmp/rudalle'):
@@ -14,7 +14,7 @@ def get_tokenizer(path=None, cache_dir='/tmp/rudalle'):
         filename = 'bpe.model'
         cache_dir = join(cache_dir, 'tokenizer')
         config_file_url = hf_hub_url(repo_id=repo_id, filename=filename)
-        cached_download(config_file_url, cache_dir=cache_dir, force_filename=filename)
+        hf_hub_download(config_file_url, cache_dir=cache_dir, force_filename=filename)
         path = join(cache_dir, filename)
     tokenizer = YTTMTokenizerWrapper(yttm.BPE(model=path))
     print('tokenizer --> ready')
