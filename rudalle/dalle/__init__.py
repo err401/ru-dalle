@@ -188,7 +188,7 @@ def get_rudalle_model(name, pretrained=True, fp16=False, device='cpu', use_auth_
         cache_dir = os.path.join(cache_dir, name)
         config_file_url = hf_hub_url(repo_id=config['repo_id'], filename=config['filename'])
         try:
-            hf_hub_download(repo_id=config['repo_id'], filename=config['filename'], cache_dir=cache_dir, force_filename=config['filename'],
+            hf_hub_download(repo_id=config['repo_id'], filename=config['filename'], local_dir=cache_dir, force_filename=config['filename'],
                             use_auth_token=use_auth_token)
         except requests.HTTPError as err:
             err_str = str(err)
