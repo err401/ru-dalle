@@ -4,7 +4,7 @@ import gc
 import requests
 from tqdm.auto import tqdm
 import torch
-from huggingface_hub import hf_hub_url, cached_download
+from huggingface_hub import hf_hub_url, hf_hub_download
 
 from .model import DalleModel
 from .fp16 import FP16Module
@@ -188,14 +188,14 @@ def get_rudalle_model(name, pretrained=True, fp16=False, device='cpu', use_auth_
         cache_dir = os.path.join(cache_dir, name)
         config_file_url = hf_hub_url(repo_id=config['repo_id'], filename=config['filename'])
         try:
-            cached_download(config_file_url, cache_dir=cache_dir, force_filename=config['filename'],
+            hf_hub_download(config_file_url, cache_dir=cache_dir, force_filename=config['filename'],
                             use_auth_token=use_auth_token)
         except requests.HTTPError as err:
             err_str = str(err)
             # compatibility with auth_token for old hf repo
             if name == 'Kandinsky' and err_str.startswith('404 Client Error: Not Found for url:'):
                 config_file_url = hf_hub_url(repo_id='shonenkov-AI/Kandinsky', filename='pytorch_model.bin')
-                cached_download(config_file_url, cache_dir=cache_dir, force_filename=config['filename'],
+                hf_hub_download(config_file_url, cache_dir=cache_dir, force_filename=config['filename'],
                                 use_auth_token=use_auth_token)
             else:
                 raise err
